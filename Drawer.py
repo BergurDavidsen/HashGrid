@@ -1,56 +1,31 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 import numpy as np
-from SoundToRGB import get_rgb_values
+from SoundToColor import SoundToColor
 
 
 class ImageCreator:
-    def __init__(self, filename, data, sample_rate, shape):
-        self.filename = filename
-        self.data = data
-        self.sample_rate = sample_rate
-        self.shape = shape
+    def draw_image(self, color_list:list, cell_size, grid_size):
 
-    def draw_image(self, shape):
+        # Configurable setting
+        columns = grid_size # number of columns in the grid
 
-        width, height = self.get_size()
+        # Calculate image size
+        rows = (len(color_list) + columns - 1) // columns
+        img_width = columns * cell_size
+        img_height = rows * cell_size
 
-        images = []
+        # Create image
+        img = Image.new("RGB", (img_width, img_height), "white")
+        draw = ImageDraw.Draw(img)
 
-        num_samples = len(self.data)
-        normalized_x = np.linspace(0, width, num_samples).astype(int)  # Convert to integers for pixel mapping
+        # Draw each block
+        for i, color in enumerate(color_list):
+            row = i // columns
+            col = i % columns
+            x0 = col * cell_size
+            y0 = row * cell_size
+            x1 = x0 + cell_size
+            y1 = y0 + cell_size
+            draw.rectangle([x0, y0, x1, y1], fill=color)
 
-        for channel_idx in range(self.shape):
-            # Create a new image for each channel
-            img = Image.new(mode="RGB", size=(width, height), color=(255, 255, 255))
-            draw = ImageDraw.Draw(img)
-
-            # Get RGB values for this channel
-
-            channel_data = self.data if self.shape == 1 else self.data[:, channel_idx]
-            channel_colors = get_rgb_values(channel_data)
-
-            for i, x in enumerate(normalized_x):
-                if x >= width:  # Ensure no out-of-bounds access
-                    break
-                draw.line(xy=(x, 0, x, height), fill=channel_colors[i], width=1)
-
-            images.append(img)
-
-        return images
-
-    def get_size(self):
-        num_samples = len(self.data)
-        duration = num_samples // self.sample_rate
-
-        base_size = 400
-        factor = 100
-
-        width = base_size + (factor * duration)
-
-        height = base_size
-
-        max_size = 3000
-        width = min(width, max_size)
-        height = min(height, max_size)
-
-        return width, height
+        return img
