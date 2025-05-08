@@ -29,7 +29,6 @@ def generate(
         hashed_string = fr.hash_file(BYTE_SIZE)
 
         print(f"[blue]🔢 Hashed string length:[/blue] {len(hashed_string)} hex chars")
-        print(hashed_string)
         stc = SoundToColor()
         color_list = stc.get_colors_list(hashed_string)
 

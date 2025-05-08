@@ -1,10 +1,9 @@
 from PIL import Image, ImageDraw, ImageFilter
-import numpy as np
 from SoundToColor import SoundToColor
 
 
 class ImageCreator:
-    def draw_image(self, color_list:list, cell_size, grid_size):
+    def draw_image(self, color_list:list, cell_size, grid_size, radius=200):
 
         # Configurable setting
         columns = grid_size # number of columns in the grid
