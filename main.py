@@ -5,7 +5,7 @@ from pathlib import Path
 
 from FileReader import Reader
 from Drawer import ImageCreator
-from SoundToColor import SoundToColor
+from HashToColor import HashToColor
 from Decoder import Decoder
 
 app = typer.Typer(help="🎵🔵 Generate or decode a color grid image from a WAV file hash.")
@@ -29,7 +29,7 @@ def generate(
         hashed_string = fr.hash_file(BYTE_SIZE)
 
         print(f"[blue]🔢 Hashed string length:[/blue] {len(hashed_string)} hex chars")
-        stc = SoundToColor()
+        stc = HashToColor()
         color_list = stc.get_colors_list(hashed_string)
 
         grid_size = int(math.isqrt(len(hashed_string)))  # Square grid
@@ -55,7 +55,7 @@ def decode(
     try:
         print(f"[cyan]🖼️ Decoding image:[/cyan] {image_path}")
 
-        stc = SoundToColor()
+        stc = HashToColor()
         decoder = Decoder(str(image_path), CELL_SIZE, grid_size=math.isqrt(2*BYTE_SIZE))
         hashed = decoder.decode_image_to_hash(stc.rgb_to_hex_map)
 

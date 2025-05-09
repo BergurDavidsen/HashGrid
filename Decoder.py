@@ -1,5 +1,4 @@
 from PIL import Image
-from SoundToColor import SoundToColor
 
 class Decoder():
     def __init__(self, filename, cell_size, grid_size):

@@ -1,5 +1,4 @@
-from PIL import Image, ImageDraw, ImageFilter
-from SoundToColor import SoundToColor
+from PIL import Image, ImageDraw
 
 
 class ImageCreator:
