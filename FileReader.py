@@ -1,5 +1,4 @@
 import hashlib
-from scipy.io import wavfile
 
 
 class Reader:
