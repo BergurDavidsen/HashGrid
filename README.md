@@ -69,7 +69,7 @@ python main.py decode myfile_hash.png
 
 * By default, the hash is 450 bytes (hex string of 900 characters)
 * The grid will be approximately square based on the hash length
-* This tool supports any file format, not just WAV or audio files
+* This tool supports any file format
 
 ---
 
